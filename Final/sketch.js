@@ -2,13 +2,13 @@ var whatScreen;
 var whichBlock;
 var keyList;
 var player;
-
+var barriers;
 function preload() {
     A = loadSound("assets/A.mp3");
     B = loadSound("assets/B.mp3");
     C = loadSound("assets/C.mp3");
     keyList = [A, B, C];
-    player = createSprite(((window.innerWidth) / 2), ((window.innerHeight) / 2), 64, 64);
+    player = createSprite(((window.innerWidth) / 2), ((window.innerHeight) / 2), 50, 50);
 }
 
 function setup() {
@@ -63,6 +63,13 @@ function startScreen() {
 function keyPressed() {
     if (whatScreen == 0) {
         whatScreen = 1;
+    }
+    if (whatScreen == 1)
+    {
+      if (keyCode === ENTER)
+      {
+        whatScreen=2;
+      }
     }
 }
 
