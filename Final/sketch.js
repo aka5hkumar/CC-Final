@@ -1,4 +1,3 @@
-
 var whatScreen;
 var whichBlock;
 var keyList;
@@ -16,6 +15,7 @@ function setup() {
     whatScreen = 0;
     whichBlock = [0, 0, 0, 0];
     createCanvas(window.innerWidth, window.innerHeight);
+
 }
 
 function draw() {
@@ -36,6 +36,7 @@ function screenChoose() {
 
 function mainScreen() {
     background(255, 0, 0);
+    drawSprites();
 }
 
 function finalScreen() {
