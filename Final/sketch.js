@@ -67,10 +67,11 @@ function keyPressed() {
 }
 
 function mouseClicked() {
-
-    whichBlock = get(mouseX, mouseY);
-    console.log(whichBlock)
-    clickPlay();
+    if (whatScreen == 0) {
+        whichBlock = get(mouseX, mouseY);
+        console.log(whichBlock)
+        clickPlay();
+    }
 }
 
 function clickPlay() {
