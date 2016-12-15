@@ -3,6 +3,8 @@ var whichBlock;
 var keyList;
 var player;
 var barriers;
+var overlap;
+
 function preload() {
     A = loadSound("assets/A.mp3");
     B = loadSound("assets/B.mp3");
@@ -15,6 +17,8 @@ function setup() {
     whatScreen = 0;
     whichBlock = [0, 0, 0, 0];
     createCanvas(window.innerWidth, window.innerHeight);
+    barriers=new Group();
+
 
 }
 
@@ -34,9 +38,38 @@ function screenChoose() {
     }
 }
 
+function startScreen() {
+    var demoRectSize = 100;
+    var innerOffset = (width / 6) - (demoRectSize / 3);
+  camera.position.y = height / 2;
+    background(0, 0, 0);
+    fill(255, 0, 0, 200);
+    rect(1 * innerOffset, height / 2, demoRectSize, demoRectSize);
+    fill(0, 255, 0, 200);
+    rect(3 * innerOffset, height / 2, demoRectSize, demoRectSize);
+    fill(0, 0, 255, 200);
+    rect(5 * innerOffset, height / 2, demoRectSize, demoRectSize);
+}
+
 function mainScreen() {
     background(255, 0, 0);
-    drawSprites();
+    if (frameCount % 60 == 0) {
+        var blockSize = random(50, 300);
+        var block = createSprite(player.position.x / 2, player.position.y / 2, 50, 50);
+        barriers.add(block);
+
+        //get rid of passed pipes
+        for (var i = 0; i < barriers.length; i++)
+            if (barriers[i].position.x < player.position.x - width / 2)
+                block[i].remove();
+    }
+    camera.position.x = player.position.x + width / 4;
+    drawSprite(player);
+    drawSprites(barriers);
+    if (player.overlap(barriers))
+    {
+      console.log("death");
+    }
 }
 
 function finalScreen() {
@@ -47,29 +80,15 @@ function endScreen() {
     text('fin');
 }
 
-function startScreen() {
-    var demoRectSize = 100;
-    var innerOffset = (width / 6) - (demoRectSize / 3);
-
-    background(0, 0, 0);
-    fill(255, 0, 0, 200);
-    rect(1 * innerOffset, height / 2, demoRectSize, demoRectSize);
-    fill(0, 255, 0, 200);
-    rect(3 * innerOffset, height / 2, demoRectSize, demoRectSize);
-    fill(0, 0, 255, 200);
-    rect(5 * innerOffset, height / 2, demoRectSize, demoRectSize);
-}
 
 function keyPressed() {
     if (whatScreen == 0) {
         whatScreen = 1;
     }
-    if (whatScreen == 1)
-    {
-      if (keyCode === ENTER)
-      {
-        whatScreen=2;
-      }
+    if (whatScreen == 1) {
+        if (keyCode === ENTER) {
+            whatScreen = 2;
+        }
     }
 }
 
@@ -89,4 +108,10 @@ function clickPlay() {
             keyList[colorBlock].play();
         }
     }
+}
+
+function mouseDragged()
+{
+  player.position.x=mouseX;
+  player.position.y=mouseY;
 }
